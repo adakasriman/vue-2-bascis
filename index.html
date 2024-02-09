@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VUE practice</title>
+    <link rel="stylesheet" href="/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="vue-app">
+        <h1>{{name}}</h1>
+        <p> Job :{{job}}</p>
+        {{perseronalData("adakasn")}}
+        <div>
+
+            // ----------------------- Attribute Binding -------------------------------------------------/
+            <br>
+            <!-- <a :href="fbWebside">VUE</a> -->
+            <!-- 
+            If you directly assign a variable to href attribute, it wont read in vue.
+            In VUE you have to add a directive(v-bind or :) to html tag attribute.
+            syntax: <a v-bind:href="fbWebside">VUE</a>
+        -->
+            <a v-bind:href="vuejsWebside">VUE</a>
+        </div>
+        <br>
+        <div>
+            <div>
+                / ------------------------------Variable Binding-----------------------------------------------/
+            </div>
+            <!-- varibale binding to input -->
+            <input type="text" :value="job">
+        </div>
+        <br>
+        <div>
+            /-------------------------------------" html binding "--------------------------------------------------/
+            <!-- HTMl element Binding -->
+
+            <div v-html="adakasnGithubAccount"></div>
+        </div>
+        <br>
+
+        <div>
+            <div>
+                /------------------------------- events binding--------------------------------------------------------/
+                Onchange Events : v-on:click or @click
+            </div>
+
+            <!-- Count adding decreaing -->
+            <div>{{count}}</div>
+            <button v-on:click="countChange('add')">Add count</button>
+            <button @click="countChange">SUB count</button>
+
+            <!-- doubled click event -->
+
+            <button @dblclick="countChange('add')">doubled click Add count</button>
+            <button @dblclick="countChange">doubled click SUB count</button>
+
+            <br>
+
+            <button @click="countChange('reset')">Reset</button>
+            <br>
+            <br>
+            <div class="canvas" v-on:mousemove="updateXY">
+                {{canvasXYValues.x}} , {{canvasXYValues.y}}
+            </div>
+        </div>
+        <br>
+        <br>
+        <div>
+            <div>
+                /------------------------------- Event Modifiers
+                --------------------------------------------------------/
+                <br>
+                stop
+                prevent
+                capture
+                self
+                once
+                <br>
+                <br>
+
+            </div>
+
+            <div>{{count}}</div>
+            <button v-on:click.once="countChange('add')">Add count</button>
+            <button @click="countChange">SUB count</button>
+
+            <div>
+                <a @click.prevent="click" href="https://github.com/adakasriman">enevt modifier</a>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div>
+            <div>
+                /------------------------------- Keyboard Events
+                --------------------------------------------------------/
+                <br>
+                enter,
+                tab,
+                delete (captures both "Delete" and "Backspace" keys),
+                esc,
+                space,
+                up,
+                down,
+                left,
+                right
+            </div>
+
+            <form action="" @submit.prevent="submithanduler">
+                <div>
+                    <label for="">User Name</label>
+                    <input type="text" name="userName" :value="formData.userName" @keyup.space.enter="logName">
+                </div>
+                <div>
+                    <label for="">Password</label>
+                    <input type="password" name="password" :value="formData.password" @keyup.down.enter="logName">
+                </div>
+                <button>Submit</button>
+            </form>
+
+        </div>
+
+        <br>
+        <br>
+
+        <div>
+            <div>
+                /------------------------------- 2 way data binding
+                --------------------------------------------------------/
+            </div>
+
+            <form action="" @submit.prevent="submithanduler">
+                <div>
+                    <label for="">User Name</label>
+                    <input type="text" name="userName" v-model="twoWayDataBindingFormData.userName">
+                    <span>{{twoWayDataBindingFormData.userName}}</span>
+                </div>
+                <div>
+                    <label for="">Password</label>
+                    <input type="password" name="password" v-model="twoWayDataBindingFormData.password">
+                    <span>{{twoWayDataBindingFormData.password}}</span>
+                </div>
+                <button>Submit</button>
+            </form>
+
+        </div>
+
+
+        <br>
+        <br>
+
+        <div>
+            <div>
+                /-------------------------------Computed Properties
+                --------------------------------------------------------/
+            </div>
+
+            <button @click="computed.a++">add count</button>
+            <button @click="computed.b++">Sub count</button>
+            <p>a - {{computed.a}}</p>
+            <p>b- {{computed.b}}</p>
+
+            <p>Age + a = {{addTAgeA}}</p>
+            <p>Age + b = {{addTAgeB}}</p>
+
+        </div>
+        <br>
+        <br>
+
+        <div>
+            <div>
+                /------------------------------- Dynamic Classes
+                --------------------------------------------------------/
+            </div>
+
+            <div>Example 1</div>
+            <br>
+            <div @click="dynamicClassesVariables.name1 = !dynamicClassesVariables.name1">
+                <span :class="{name1 : dynamicClassesVariables.name1,
+                    name2 : dynamicClassesVariables.name2,
+                }">Adaka</span>
+            </div>
+
+            <div>Example 2</div>
+            <br>{{composedClassesVariables.name2}}
+            <button @click="composedClassesVariables.name1 = !composedClassesVariables.name1">Toggle bg color</button>
+            <button @click="composedClassesVariables.name2 = !composedClassesVariables.name2">Toggle add surName
+                adaka</button>
+            <div>
+                <span :class="computClassToggleExample2">Sriman</span>
+            </div>
+        </div>
+
+
+        <br>
+        <br>
+
+        <div>
+            <div>
+                /------------------------------- "Condtionals" (V-if) : removing element from the DOM
+                (V-show) : applying CSS property display none to the element.
+                --------------------------------------------------------/
+            </div>
+            <button v-on:click="condtionsState.error = !condtionsState.error">Toggle Error</button>
+            <button @click="condtionsState.sucess = !condtionsState.sucess">Toggle Sucess</button>
+
+            <!-- <p v-if="condtionsState.error">There has been Error</p>
+            <p v-show="condtionsState.sucess">Sucess</p> -->
+            <p v-if="condtionsState.error">There has been Error</p>
+            <p v-else>Else div</p>
+
+
+        </div>
+        <br>
+        <br>
+
+
+        <div>
+            <div>
+                /------------------------------- "LOOP" (v-for)
+                --------------------------------------------------------/
+            </div>
+
+            //Array loop
+
+            <ul>
+                <li v-for="person in loopArray">{{person.name}}</li>
+            </ul>
+
+            <ul>
+                <li v-for="(person, index) in loopArray">{{index}}. {{person.name}}</li>
+            </ul>
+
+            <template v-for="(person, index) in loopArray">
+                <!-- // template tag is vue fragement  -->
+                <h2>{{index}}. {{person.name}}</h2>
+            </template>
+
+            // Objectg Loop
+            <template v-for="(person, index) in loopArray">
+                <!-- // template tag is vue fragement  -->
+                <div v-for="(value, key) in person">
+                    <p>{{key}} - {{value}}</p>
+                </div>
+            </template>
+        </div>
+        <br>
+        <br>
+
+        <div>
+            <div>
+                /------------------------------- Punchbag Game
+                --------------------------------------------------------/
+            </div>
+
+            <!-- Bag Image -->
+
+            <div id="bag" :class="{bust: gameState.ended}">
+
+            </div>
+
+            <!-- Bag Health -->
+            <div id="bag-health">
+                <div>
+                    <div :style="{width :gameState.health + '%'}"></div>
+                </div>
+            </div>
+
+            <!-- Game Controls -->
+
+            <div id="controls">
+                <button @click="punch" v-show="!gameState.ended">Punch</button>
+                <button @click="restart">Restart</button>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <script src="./app.js"></script>
+</body>
+
+</html>
