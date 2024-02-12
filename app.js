@@ -43,6 +43,9 @@ new Vue({
         gameState: {
             health: 100,
             ended: false
+        },
+        reference: {
+            input: ""
         }
     },
     methods: { // Methods 
@@ -86,7 +89,15 @@ new Vue({
             this.gameState.health = 100;
             this.gameState.ended = false;
         },
+        referenceSubmitHandular: function () {
+            console.log(this.$refs);
 
+            this.reference.input = this.$refs.input.value;
+            this.$refs.input.value = "";
+
+            console.log(this.$refs.text.innerText);
+
+        }
 
     },
     computed: {
